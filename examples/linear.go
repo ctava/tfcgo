@@ -28,6 +28,12 @@ func main() {
 		WxPlusb      = op.AssignAddVariableOp(s, handleW, valueb)
 		y            = op.Placeholder(s.SubScope("y"), tf.Float)
 		WxPlusMinusY = op.AssignSubVariableOp(s, handleb, y)
+
+		initLossValue                   = op.Const(s.SubScope("loss"), float32(1.0))
+		initLoss, handleLoss, valueLoss = tfcgo.Variable(s, initLossValue)
+		initDeltaValue                  = op.Const(s.SubScope("Delta"), float32(0.01))
+		//TODO reduce_sum and square
+		GradientDescent = op.ResourceApplyGradientDescent(s, handleLoss, valueLoss, initDeltaValue)
 	)
 
 	g, err := s.Finalize()
@@ -44,6 +50,10 @@ func main() {
 	}
 
 	if _, err := sess.Run(nil, nil, []*tf.Operation{initb}); err != nil {
+		log.Fatal(err)
+	}
+
+	if _, err := sess.Run(nil, nil, []*tf.Operation{initLoss}); err != nil {
 		log.Fatal(err)
 	}
 
@@ -65,13 +75,20 @@ func main() {
 	}
 
 	for i := 0; i <= 10; i++ {
-		result, err := sess.Run(map[tf.Output]*tf.Tensor{x: xTrain, y: yTrain},
-			[]tf.Output{g.Operation("Mul").Output(0)}, []*tf.Operation{WxMul, WxPlusb, WxPlusMinusY})
+		_, err := sess.Run(map[tf.Output]*tf.Tensor{x: xTrain, y: yTrain},
+			nil, []*tf.Operation{GradientDescent})
 		if err != nil {
 			log.Fatal(s.Err())
 			log.Fatal(err)
 		}
-		fmt.Println(result[0].Value().([]float32))
 	}
+
+	result, err := sess.Run(map[tf.Output]*tf.Tensor{x: xTrain, y: yTrain},
+		[]tf.Output{g.Operation("Variable/Read/ReadVariableOp").Output(0), g.Operation("Variable_1/Read/ReadVariableOp").Output(0), g.Operation("Variable_2/Read/ReadVariableOp").Output(0)}, []*tf.Operation{WxMul, WxPlusb, WxPlusMinusY, GradientDescent})
+	if err != nil {
+		log.Fatal(s.Err())
+		log.Fatal(err)
+	}
+	fmt.Printf("W: %v b: %v loss: %v \n", result[0].Value(), result[1].Value(), result[2].Value())
 
 }
