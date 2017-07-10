@@ -128,7 +128,7 @@ ADD ./tensorflow/graphio.go /go/src/github.com/tensorflow/tensorflow/tensorflow/
 #End: add supplemental tensorflow go files to proper location
 
 #Begin: install tfcgo + go-tensorflow files
-RUN go get github.com/asimshankar/go-tensorflow/variable
+#RUN go get github.com/asimshankar/go-tensorflow/variable
 RUN go get github.com/ctava/tfcgo
 #End: install tfcgo + go-tensorflow files
 
