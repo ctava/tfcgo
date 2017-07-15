@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         curl \
         git \
+        mercurial \
         libcurl3-dev \
         libfreetype6-dev \
         libpng12-dev \
@@ -127,10 +128,19 @@ RUN /usr/local/bin/protoc -I $TF_DIR \
 ADD ./tensorflow/graphio.go /go/src/github.com/tensorflow/tensorflow/tensorflow/go/graphio.go
 #End: add supplemental tensorflow go files to proper location
 
-#Begin: install tfcgo + go-tensorflow files
-#RUN go get github.com/asimshankar/go-tensorflow/variable
+#Begin: install gonum
+RUN go get github.com/gonum/floats
+RUN go get github.com/gonum/plot
+#End: install gonum
+
+#Begin: install tfcgo
+RUN go get github.com/pkg/errors
 RUN go get github.com/ctava/tfcgo
-#End: install tfcgo + go-tensorflow files
+#End: install tfcgo
+
+#Begin: install delve
+RUN go get github.com/derekparker/delve/cmd/dlv
+#End: install delve
 
 WORKDIR "/go/src/github.com/ctava/tfcgo/examples"
 #CMD ["/bin/bash"]
