@@ -17,6 +17,7 @@ cd tfcgo
 docker build -t ctava/tfcgo .
 docker run -v /Users/local/path:/container/path -it -p 8888:8888 tfcgo:latest
 ```
+
 and your in. You now have `tensorflow` + `golang` + `tfcgo` available.
 
 # Running
@@ -27,6 +28,7 @@ docker pull ctava/tfcgo:latest
 docker run -it --security-opt=seccomp:unconfined -p 8888:8888 tfcgo:latest
 ```
 --security-opt for the purposes of using delve
+
 and your in. You now have `tensorflow` + `golang` + `tfcgo` available.
 
 # Confirm Golang, Tensorflow and tfcgo installation
@@ -47,9 +49,9 @@ Training
 go run linear.go
 ```
 
-Classification
+Multi-Class Classification
 ```
-go run iris.go
+go run iris.go (coming soon)
 ```
 
 
