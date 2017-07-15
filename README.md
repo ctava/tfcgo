@@ -4,8 +4,7 @@ tfcgo was born out of necessity. Tensorflow go bindings are slow to progress. Re
 This library will eventually do the hard work bridging the gap between go and the Tensorflow c++ framework. Training a TF machine learning algorithm is possible in go. Please note contributions in this repo will be submitted to the main tensorflow repo.
 
 # Docker Installation
-Install Docker:
-[https://docs.docker.com/engine/installation/#supported-platforms](Install Docker)
+[Install Docker](https://docs.docker.com/engine/installation/#supported-platforms)
 
 # Build from source
 git clone this repo:
