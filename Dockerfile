@@ -51,7 +51,7 @@ RUN echo "startup --batch" >>/etc/bazel.bazelrc
 RUN echo "build --spawn_strategy=standalone --genrule_strategy=standalone" \
     >>/etc/bazel.bazelrc
 # Install the most recent bazel release.
-ENV BAZEL_VERSION 0.5.2
+ENV BAZEL_VERSION 0.11.1
 WORKDIR /
 RUN mkdir /bazel && \
     cd /bazel && \
@@ -66,7 +66,7 @@ RUN mkdir /bazel && \
 #Begin: Download and build TensorFlow
 RUN git clone https://github.com/tensorflow/tensorflow.git && \
     cd tensorflow && \
-    git checkout r1.2
+    git checkout r1.5
 WORKDIR /tensorflow
 
 ENV CI_BUILD_PYTHON python
@@ -81,9 +81,9 @@ RUN tensorflow/tools/ci_build/builds/configured CPU \
 #End: Download and build TensorFlow
 
 #Begin: install golang
-ENV GOLANG_VERSION 1.8.3
+ENV GOLANG_VERSION 1.10
 ENV GOLANG_DOWNLOAD_URL https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz
-ENV GOLANG_SHA256_CHECKSUM 1862f4c3d3907e59b04a757cfda0ea7aa9ef39274af99a784f5be843c80c6772
+ENV GOLANG_SHA256_CHECKSUM b5a64335f1490277b585832d1f6c7f8c6c11206cba5cd3f771dcb87b98ad1a33
 ENV GOPATH /go
 ENV PATH $PATH:$GOPATH/bin:/usr/local/go/bin
 RUN curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz && \
@@ -94,7 +94,7 @@ RUN curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz && \
 #End: install golang
 
 #Begin: install tensorflow library
-ENV TENSORFLOW_LIB_GZIP libtensorflow-cpu-linux-x86_64-1.2.1.tar.gz
+ENV TENSORFLOW_LIB_GZIP libtensorflow-cpu-linux-x86_64-1.5.1.tar.gz
 ENV TARGET_DIRECTORY /usr/local
 RUN  curl -fsSL "https://storage.googleapis.com/tensorflow/libtensorflow/$TENSORFLOW_LIB_GZIP" -o $TENSORFLOW_LIB_GZIP && \
      tar -C $TARGET_DIRECTORY -xzf $TENSORFLOW_LIB_GZIP && \
@@ -105,7 +105,7 @@ RUN go get github.com/tensorflow/tensorflow/tensorflow/go
 #End: install tensorflow library
 
 #Begin: install protoc
-ENV PROTOC_VERSION 3.3.0
+ENV PROTOC_VERSION 3.5.1
 ENV PROTOC_LIB_ZIP protoc-$PROTOC_VERSION-linux-x86_64.zip
 ENV TARGET_DIRECTORY /usr/local
 RUN  curl -fsSL "https://github.com/google/protobuf/releases/download/v$PROTOC_VERSION/$PROTOC_LIB_ZIP" -o $PROTOC_LIB_ZIP && \
@@ -130,7 +130,7 @@ ADD ./tensorflow/graphio.go /go/src/github.com/tensorflow/tensorflow/tensorflow/
 
 #Begin: install gonum
 RUN go get github.com/gonum/floats
-RUN go get github.com/gonum/plot
+#RUN go get github.com/gonum/plot //go: missing Mercurial command
 #End: install gonum
 
 #Begin: install tfcgo

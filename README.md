@@ -14,7 +14,8 @@ git clone this repo:
 Run the following commands:
 cd tfcgo
 docker build -t ctava/tfcgo .
-docker run -v /Users/local/path:/container/path -it -p 8888:8888 tfcgo:latest
+To run with shared volume, you can add /go to shared paths from Docker -> Preferences... -> File Sharing.
+docker run -v /go/src/github.com/ctava/tfcgo:/go/src/github.com/ctava/tfcgo -it -p 8888:8888 ctava/tfcgo:latest
 ```
 
 and your in. You now have `tensorflow` + `golang` + `tfcgo` available.
@@ -24,7 +25,7 @@ and your in. You now have `tensorflow` + `golang` + `tfcgo` available.
 ```
 Run the following commands:
 docker pull ctava/tfcgo:latest
-docker run -it --security-opt=seccomp:unconfined -p 8888:8888 tfcgo:latest
+docker run -it --security-opt=seccomp:unconfined -p 8888:8888 ctava/tfcgo:latest
 ```
 --security-opt for the purposes of using delve
 
