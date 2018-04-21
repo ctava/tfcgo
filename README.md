@@ -6,7 +6,7 @@ This library will eventually do the hard work bridging the gap between go and th
 # Docker Installation
 [Install Docker](https://docs.docker.com/engine/installation/#supported-platforms)
 
-# Build from source
+# Build your own image from source
 git clone this repo:
 `git clone https://github.com/ctava/tfcgo`
 
@@ -20,14 +20,14 @@ docker run -v /go/src/github.com/ctava/tfcgo:/go/src/github.com/ctava/tfcgo -it 
 
 and your in. You now have `tensorflow` + `golang` + `tfcgo` available.
 
-# Running
+# Running from a prebuilt/publish docker image
 
 ```
 Run the following commands:
 docker pull ctava/tfcgo:latest
 docker run -it --security-opt=seccomp:unconfined -p 8888:8888 ctava/tfcgo:latest
 ```
---security-opt for the purposes of using delve
+--security-opt for the purposes of using [delve](https://github.com/derekparker/delve)
 
 and your in. You now have `tensorflow` + `golang` + `tfcgo` available.
 

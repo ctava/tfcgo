@@ -81,7 +81,7 @@ RUN tensorflow/tools/ci_build/builds/configured CPU \
 #End: Download and build TensorFlow
 
 #Begin: install golang
-ENV GOLANG_VERSION 1.10
+ENV GOLANG_VERSION 1.10.1
 ENV GOLANG_DOWNLOAD_URL https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz
 ENV GOLANG_SHA256_CHECKSUM b5a64335f1490277b585832d1f6c7f8c6c11206cba5cd3f771dcb87b98ad1a33
 ENV GOPATH /go
@@ -94,7 +94,7 @@ RUN curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz && \
 #End: install golang
 
 #Begin: install tensorflow library
-ENV TENSORFLOW_LIB_GZIP libtensorflow-cpu-linux-x86_64-1.5.1.tar.gz
+ENV TENSORFLOW_LIB_GZIP libtensorflow-cpu-linux-x86_64-1.7.0.tar.gz
 ENV TARGET_DIRECTORY /usr/local
 RUN  curl -fsSL "https://storage.googleapis.com/tensorflow/libtensorflow/$TENSORFLOW_LIB_GZIP" -o $TENSORFLOW_LIB_GZIP && \
      tar -C $TARGET_DIRECTORY -xzf $TENSORFLOW_LIB_GZIP && \
@@ -135,6 +135,7 @@ RUN go get github.com/gonum/floats
 
 #Begin: install tfcgo
 RUN go get github.com/pkg/errors
+RUN go get github.com/kniren/gota/dataframe
 RUN go get github.com/ctava/tfcgo
 #End: install tfcgo
 
